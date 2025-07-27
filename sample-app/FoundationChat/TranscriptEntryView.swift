@@ -1,4 +1,4 @@
-/// Copyright (c) 2023 Kodeco Inc.
+/// Copyright (c) 2025 Kodeco Inc.
 /// 
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -32,11 +32,27 @@
 
 import SwiftUI
 
-@main
-struct AppMain: App {
-  var body: some Scene {
-    WindowGroup {
-      ContentView()
-    }
+struct TranscriptEntryView: View {
+  var text: String
+  var color: Color
+
+  var body: some View {
+    Text(text)
+      .frame(maxWidth: .infinity, alignment: .leading)
+      .padding(.horizontal, 16)
+      .padding(.vertical, 10)
+      .background(
+        RoundedRectangle(cornerRadius: 20)
+          .fill(color)
+          .padding(.horizontal, 4)
+      )
   }
 }
+
+#Preview {
+  TranscriptEntryView(
+    text: "Sample Text",
+    color: Color.blue.mix(with: .white, by: 0.5)
+  )
+}
+

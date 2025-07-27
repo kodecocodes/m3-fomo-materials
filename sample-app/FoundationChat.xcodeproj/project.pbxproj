@@ -7,21 +7,42 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1839F4B025190F2A00BB00F1 /* AppMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1839F4AF25190F2A00BB00F1 /* AppMain.swift */; };
+		1839F4B025190F2A00BB00F1 /* FoundationChatApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1839F4AF25190F2A00BB00F1 /* FoundationChatApp.swift */; };
 		18D775C522AD944300AE281E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D775C422AD944300AE281E /* ContentView.swift */; };
 		18D775C722AD944400AE281E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18D775C622AD944400AE281E /* Assets.xcassets */; };
 		18D775CA22AD944400AE281E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18D775C922AD944400AE281E /* Preview Assets.xcassets */; };
 		18D775D822AD963800AE281E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18D775DA22AD963800AE281E /* LaunchScreen.storyboard */; };
+		A9D81C032E36D53600F02AC0 /* ChatView..swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D81C022E36D53600F02AC0 /* ChatView..swift */; };
+		A9D81C052E36D55100F02AC0 /* ConfigrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D81C042E36D55100F02AC0 /* ConfigrationView.swift */; };
+		A9D81C072E36D58100F02AC0 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D81C062E36D58100F02AC0 /* Message.swift */; };
+		A9D81C092E36D59100F02AC0 /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D81C082E36D59100F02AC0 /* MessageBubble.swift */; };
+		A9D81C0B2E36D5AB00F02AC0 /* MessageInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D81C0A2E36D5AB00F02AC0 /* MessageInputView.swift */; };
+		A9D81C0D2E36D5BE00F02AC0 /* ModelUnavailableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D81C0C2E36D5BE00F02AC0 /* ModelUnavailableView.swift */; };
+		A9D81C0F2E36D5D000F02AC0 /* TranscriptEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D81C0E2E36D5D000F02AC0 /* TranscriptEntryView.swift */; };
+		A9D81C112E36D5E100F02AC0 /* TranscriptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D81C102E36D5E100F02AC0 /* TranscriptView.swift */; };
+		A9D81C132E36D5F300F02AC0 /* TypingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D81C122E36D5F300F02AC0 /* TypingIndicator.swift */; };
+		A9D81C152E36D60C00F02AC0 /* WeatherForecastTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D81C142E36D60C00F02AC0 /* WeatherForecastTool.swift */; };
+		A9D81C182E36D65400F02AC0 /* OpenMeteoSdk in Frameworks */ = {isa = PBXBuildFile; productRef = A9D81C172E36D65400F02AC0 /* OpenMeteoSdk */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1839F4AF25190F2A00BB00F1 /* AppMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppMain.swift; sourceTree = "<group>"; };
-		18D775BD22AD944300AE281E /* MySwiftUITutorial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MySwiftUITutorial.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1839F4AF25190F2A00BB00F1 /* FoundationChatApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationChatApp.swift; sourceTree = "<group>"; };
+		18D775BD22AD944300AE281E /* FoundationChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoundationChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18D775C422AD944300AE281E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		18D775C622AD944400AE281E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		18D775C922AD944400AE281E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		18D775CE22AD944400AE281E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		18D775DE22AD96B400AE281E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A9D81C022E36D53600F02AC0 /* ChatView..swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView..swift; sourceTree = "<group>"; };
+		A9D81C042E36D55100F02AC0 /* ConfigrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigrationView.swift; sourceTree = "<group>"; };
+		A9D81C062E36D58100F02AC0 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		A9D81C082E36D59100F02AC0 /* MessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
+		A9D81C0A2E36D5AB00F02AC0 /* MessageInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageInputView.swift; sourceTree = "<group>"; };
+		A9D81C0C2E36D5BE00F02AC0 /* ModelUnavailableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelUnavailableView.swift; sourceTree = "<group>"; };
+		A9D81C0E2E36D5D000F02AC0 /* TranscriptEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptEntryView.swift; sourceTree = "<group>"; };
+		A9D81C102E36D5E100F02AC0 /* TranscriptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptView.swift; sourceTree = "<group>"; };
+		A9D81C122E36D5F300F02AC0 /* TypingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypingIndicator.swift; sourceTree = "<group>"; };
+		A9D81C142E36D60C00F02AC0 /* WeatherForecastTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherForecastTool.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +50,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9D81C182E36D65400F02AC0 /* OpenMeteoSdk in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -38,7 +60,7 @@
 		18D775B422AD944300AE281E = {
 			isa = PBXGroup;
 			children = (
-				18D775BF22AD944300AE281E /* MySwiftUITutorial */,
+				18D775BF22AD944300AE281E /* FoundationChat */,
 				18D775BE22AD944300AE281E /* Products */,
 			);
 			indentWidth = 2;
@@ -48,22 +70,32 @@
 		18D775BE22AD944300AE281E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				18D775BD22AD944300AE281E /* MySwiftUITutorial.app */,
+				18D775BD22AD944300AE281E /* FoundationChat.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		18D775BF22AD944300AE281E /* MySwiftUITutorial */ = {
+		18D775BF22AD944300AE281E /* FoundationChat */ = {
 			isa = PBXGroup;
 			children = (
-				1839F4AF25190F2A00BB00F1 /* AppMain.swift */,
-				18D775C422AD944300AE281E /* ContentView.swift */,
 				18D775C622AD944400AE281E /* Assets.xcassets */,
+				1839F4AF25190F2A00BB00F1 /* FoundationChatApp.swift */,
+				18D775C422AD944300AE281E /* ContentView.swift */,
 				18D775DA22AD963800AE281E /* LaunchScreen.storyboard */,
 				18D775CE22AD944400AE281E /* Info.plist */,
 				18D775C822AD944400AE281E /* Preview Content */,
+				A9D81C022E36D53600F02AC0 /* ChatView..swift */,
+				A9D81C042E36D55100F02AC0 /* ConfigrationView.swift */,
+				A9D81C062E36D58100F02AC0 /* Message.swift */,
+				A9D81C082E36D59100F02AC0 /* MessageBubble.swift */,
+				A9D81C0A2E36D5AB00F02AC0 /* MessageInputView.swift */,
+				A9D81C0C2E36D5BE00F02AC0 /* ModelUnavailableView.swift */,
+				A9D81C0E2E36D5D000F02AC0 /* TranscriptEntryView.swift */,
+				A9D81C102E36D5E100F02AC0 /* TranscriptView.swift */,
+				A9D81C122E36D5F300F02AC0 /* TypingIndicator.swift */,
+				A9D81C142E36D60C00F02AC0 /* WeatherForecastTool.swift */,
 			);
-			path = MySwiftUITutorial;
+			path = FoundationChat;
 			sourceTree = "<group>";
 		};
 		18D775C822AD944400AE281E /* Preview Content */ = {
@@ -77,9 +109,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		18D775BC22AD944300AE281E /* MySwiftUITutorial */ = {
+		18D775BC22AD944300AE281E /* FoundationChat */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 18D775D122AD944400AE281E /* Build configuration list for PBXNativeTarget "MySwiftUITutorial" */;
+			buildConfigurationList = 18D775D122AD944400AE281E /* Build configuration list for PBXNativeTarget "FoundationChat" */;
 			buildPhases = (
 				181FE31D248EA6C900A180EA /* SwiftLint */,
 				18D775B922AD944300AE281E /* Sources */,
@@ -90,9 +122,9 @@
 			);
 			dependencies = (
 			);
-			name = MySwiftUITutorial;
+			name = FoundationChat;
 			productName = MyRWTutorial;
-			productReference = 18D775BD22AD944300AE281E /* MySwiftUITutorial.app */;
+			productReference = 18D775BD22AD944300AE281E /* FoundationChat.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -101,8 +133,9 @@
 		18D775B522AD944300AE281E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1100;
-				LastUpgradeCheck = 1200;
+				LastUpgradeCheck = 2600;
 				ORGANIZATIONNAME = Kodeco;
 				TargetAttributes = {
 					18D775BC22AD944300AE281E = {
@@ -110,7 +143,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 18D775B822AD944300AE281E /* Build configuration list for PBXProject "MySwiftUITutorial" */;
+			buildConfigurationList = 18D775B822AD944300AE281E /* Build configuration list for PBXProject "FoundationChat" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -119,11 +152,14 @@
 				Base,
 			);
 			mainGroup = 18D775B422AD944300AE281E;
+			packageReferences = (
+				A9D81C162E36D65400F02AC0 /* XCRemoteSwiftPackageReference "sdk" */,
+			);
 			productRefGroup = 18D775BE22AD944300AE281E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				18D775BC22AD944300AE281E /* MySwiftUITutorial */,
+				18D775BC22AD944300AE281E /* FoundationChat */,
 			);
 		};
 /* End PBXProject section */
@@ -168,8 +204,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9D81C112E36D5E100F02AC0 /* TranscriptView.swift in Sources */,
+				A9D81C152E36D60C00F02AC0 /* WeatherForecastTool.swift in Sources */,
 				18D775C522AD944300AE281E /* ContentView.swift in Sources */,
-				1839F4B025190F2A00BB00F1 /* AppMain.swift in Sources */,
+				A9D81C0B2E36D5AB00F02AC0 /* MessageInputView.swift in Sources */,
+				A9D81C092E36D59100F02AC0 /* MessageBubble.swift in Sources */,
+				A9D81C032E36D53600F02AC0 /* ChatView..swift in Sources */,
+				A9D81C072E36D58100F02AC0 /* Message.swift in Sources */,
+				A9D81C0D2E36D5BE00F02AC0 /* ModelUnavailableView.swift in Sources */,
+				A9D81C132E36D5F300F02AC0 /* TypingIndicator.swift in Sources */,
+				1839F4B025190F2A00BB00F1 /* FoundationChatApp.swift in Sources */,
+				A9D81C052E36D55100F02AC0 /* ConfigrationView.swift in Sources */,
+				A9D81C0F2E36D5D000F02AC0 /* TranscriptEntryView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -243,6 +289,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -297,6 +344,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
@@ -308,10 +356,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "MySwiftUITutorial/Preview\\ Content";
+				DEVELOPMENT_ASSET_PATHS = "\"FoundationChat/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = MySwiftUITutorial/Info.plist;
+				INFOPLIST_FILE = FoundationChat/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -329,10 +377,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "MySwiftUITutorial/Preview\\ Content";
+				DEVELOPMENT_ASSET_PATHS = "\"FoundationChat/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = MySwiftUITutorial/Info.plist;
+				INFOPLIST_FILE = FoundationChat/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -348,7 +396,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		18D775B822AD944300AE281E /* Build configuration list for PBXProject "MySwiftUITutorial" */ = {
+		18D775B822AD944300AE281E /* Build configuration list for PBXProject "FoundationChat" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				18D775CF22AD944400AE281E /* Debug */,
@@ -357,7 +405,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		18D775D122AD944400AE281E /* Build configuration list for PBXNativeTarget "MySwiftUITutorial" */ = {
+		18D775D122AD944400AE281E /* Build configuration list for PBXNativeTarget "FoundationChat" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				18D775D222AD944400AE281E /* Debug */,
@@ -367,6 +415,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A9D81C162E36D65400F02AC0 /* XCRemoteSwiftPackageReference "sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/open-meteo/sdk.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A9D81C172E36D65400F02AC0 /* OpenMeteoSdk */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A9D81C162E36D65400F02AC0 /* XCRemoteSwiftPackageReference "sdk" */;
+			productName = OpenMeteoSdk;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 18D775B522AD944300AE281E /* Project object */;
 }
