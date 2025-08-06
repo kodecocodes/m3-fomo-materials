@@ -31,19 +31,20 @@
 /// THE SOFTWARE.
 
 import SwiftUI
+import FoundationModels
 
 struct ChatView: View {
   @State private var messageText = ""
   @State private var messages: [Message] = []
-  @State private var isTyping = false
   @FocusState private var isTextFieldFocused: Bool
   @State private var showAlert = false
+  @State private var session = LanguageModelSession()
 
   var body: some View {
     NavigationView {
       VStack(spacing: 0) {
         // Instuctions
-        Text("Welcome to Foundation Chat. Enter a message to begin interacting with the Foundation Model.")
+        Text("Welcome to Foundation Explorer. Enter a message to begin interacting with the Foundation Model.")
           .font(.title2)
         // Show messages
         ScrollViewReader { proxy in
@@ -54,8 +55,9 @@ struct ChatView: View {
                   .id(message.id)
               }
 
-              if isTyping {
+              if session.isResponding {
                 TypingIndicator()
+                  .transition(.scale)
               }
             }
             .padding(.horizontal, 16)
@@ -78,6 +80,7 @@ struct ChatView: View {
           isTextFieldFocused: $isTextFieldFocused,
           sendAction: sendMessage
         )
+        .disabled(session.isResponding)
       }
       .navigationTitle("Foundation Explorer")
       .navigationBarTitleDisplayMode(.inline)
@@ -101,6 +104,7 @@ struct ChatView: View {
 
   private func resetChatHistory() {
     messages = []
+    session = LanguageModelSession()
   }
 
   private func sendMessage() async {
@@ -118,29 +122,29 @@ struct ChatView: View {
       messages.append(newMessage)
     }
 
-    // Simulate typing response
-    withAnimation(.easeInOut(duration: 0.3)) {
-      isTyping = true
+    // 1
+    var response: String
+    
+    // 2
+    do {
+      // 3
+      let modelResponse = try await session.respond(to: messageText)
+      response = modelResponse.content
+      messageText = ""
+    } catch {
+      // 4
+      response = "An error occurred while processing your message. \(error.localizedDescription)"
     }
-
-    // Echo message after 0.5 seconds to have delay
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-      // Echo message
-      let reply = "You said: \"\(messageText)\""
-      let responseMessage = Message(
-        id: UUID(),
-        text: reply,
-        isFromUser: false,
-        timestamp: Date()
-      )
-      withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
-        messages.append(responseMessage)
-      }
-
-      // Stop typing animation
-      withAnimation(.easeInOut(duration: 0.3)) {
-        isTyping = false
-      }
+    
+    let responseMessage = Message(
+      id: UUID(),
+      text: response,
+      isFromUser: false,
+      timestamp: Date()
+    )
+    
+    withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
+      messages.append(responseMessage)
     }
   }
 }
