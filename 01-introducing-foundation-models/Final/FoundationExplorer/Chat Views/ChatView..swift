@@ -124,7 +124,7 @@ struct ChatView: View {
 
     // 1
     var response: String
-    
+
     // 2
     do {
       // 3
@@ -135,14 +135,14 @@ struct ChatView: View {
       // 4
       response = "An error occurred while processing your message. \(error.localizedDescription)"
     }
-    
+
     let responseMessage = Message(
       id: UUID(),
       text: response,
       isFromUser: false,
       timestamp: Date()
     )
-    
+
     withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
       messages.append(responseMessage)
     }
