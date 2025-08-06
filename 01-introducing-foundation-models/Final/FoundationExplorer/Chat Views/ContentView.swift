@@ -35,7 +35,7 @@ import FoundationModels
 
 struct ContentView: View {
   private let model = SystemLanguageModel.default
-  
+
   var body: some View {
     switch model.availability {
     case .available:
