@@ -124,7 +124,7 @@ struct ChatView: View {
 
     // 1
     var response: String
-
+    
     // 2
     do {
       // 3
