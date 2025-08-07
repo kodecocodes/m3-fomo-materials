@@ -102,21 +102,30 @@ struct ChatView: View {
   private func resetChatHistory() {
     messages = []
   }
+  
+  private func addMessage(_ message: String, isFromUser: Bool) {
+    
+    let newMessage = Message(
+      id: UUID(),
+      text: message,
+      isFromUser: isFromUser,
+      timestamp: Date()
+    )
+    
+    withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
+      messages.append(newMessage)
+    }
+  }
+  
+  private func removeLastMessage() {
+    messages.removeLast()
+  }
 
   private func sendMessage() async {
     guard !messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
 
-    let newMessage = Message(
-      id: UUID(),
-      text: messageText,
-      isFromUser: true,
-      timestamp: Date()
-    )
-
     // Append user message
-    withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
-      messages.append(newMessage)
-    }
+    addMessage(messageText, isFromUser: true)
 
     // Simulate typing response
     withAnimation(.easeInOut(duration: 0.3)) {
@@ -127,15 +136,7 @@ struct ChatView: View {
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
       // Echo message
       let reply = "You said: \"\(messageText)\""
-      let responseMessage = Message(
-        id: UUID(),
-        text: reply,
-        isFromUser: false,
-        timestamp: Date()
-      )
-      withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
-        messages.append(responseMessage)
-      }
+      addMessage(reply, isFromUser: false)
 
       // Stop typing animation
       withAnimation(.easeInOut(duration: 0.3)) {
