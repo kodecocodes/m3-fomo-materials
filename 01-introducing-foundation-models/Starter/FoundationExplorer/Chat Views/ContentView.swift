@@ -31,10 +31,18 @@
 /// THE SOFTWARE.
 
 import SwiftUI
+import FoundationModels
 
 struct ContentView: View {
+  private let model = SystemLanguageModel.default
+
   var body: some View {
-    ChatView()
+    switch model.availability {
+    case .available:
+      ChatView()
+    case .unavailable(let reason):
+      ModelUnavailableView(reason: reason)
+    }
   }
 }
 
