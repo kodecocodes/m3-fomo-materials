@@ -32,72 +32,53 @@
 
 import SwiftUI
 
-struct ConfigrationView: View {
-  @Binding var instruction: String?
-  @Binding var customTemperature: Bool
-  @Binding var temperature: Double?
-  @Binding var useGreedy: Bool
-  @State var localInstructions = ""
-  @State var localTemperature: Double = 0.2
+struct MessageBubble: View {
+  let message: Message
 
   var body: some View {
-    VStack {
-      Text("Settings")
-        .font(.title)
-      Text("Changing any of these setting will reset the current chat.")
-        .font(.callout)
-      Form {
-        Section("Instructions") {
-          TextEditor(text: $localInstructions)
-        }
-        Section("Temperature") {
-          Toggle(isOn: $customTemperature) {
-            Text("Custom Temperature")
-          }
-          HStack {
-            Text("Temperature")
-            TextField("Temperature", value: $localTemperature, format: .number)
-              .textFieldStyle(.roundedBorder)
-              .keyboardType(.decimalPad)
-          }
-          .opacity(customTemperature ? 1.0 : 0.0)
-        }
-        Section("Sampling") {
-          HStack {
-            Toggle(isOn: $useGreedy) {
-              Text("Use Greedy Sampling")
-            }
-          }
-        }
+    HStack {
+      if message.isFromUser {
+        Spacer(minLength: 60)
       }
-      .onAppear {
-        localInstructions = instruction ?? ""
-        localTemperature = temperature ?? 0.2
+
+      VStack(alignment: message.isFromUser ? .trailing : .leading, spacing: 4) {
+        Text(LocalizedStringKey(message.text))
+          .font(.body)
+          .foregroundColor(message.isFromUser ? .white : .primary)
+          .padding(.horizontal, 16)
+          .padding(.vertical, 12)
+          .background(
+            RoundedRectangle(cornerRadius: 20)
+              .fill(message.isFromUser ? Color.blue : Color(.systemGray5))
+          )
+
+        Text(message.timestamp, style: .time)
+          .font(.caption2)
+          .foregroundColor(.secondary)
+          .padding(.horizontal, 4)
       }
-      .onChange(of: localInstructions) {
-        if localInstructions.isEmpty {
-          instruction = nil
-        } else {
-          instruction = localInstructions
-        }
-      }
-      .onChange(of: localTemperature) {
-        temperature = localTemperature
+
+      if !message.isFromUser {
+        Spacer(minLength: 60)
       }
     }
+    .contextMenu {
+      Group {
+        Button {
+          UIPasteboard.general.string = message.text
+        } label: {
+          Text("Copy")
+        }
+      }
+    }
+    .transition(.asymmetric(
+      insertion: .move(edge: message.isFromUser ? .trailing : .leading)
+        .combined(with: .opacity),
+      removal: .opacity
+    ))
   }
 }
 
 #Preview {
-  @Previewable @State var instructions: String? = ""
-  @Previewable @State var customTemperature: Bool = false
-  @Previewable @State var temperature: Double? = 0.2
-  @Previewable @State var useGreedy: Bool = false
-
-  ConfigrationView(
-    instruction: $instructions,
-    customTemperature: $customTemperature,
-    temperature: $temperature,
-    useGreedy: $useGreedy
-  )
+  MessageBubble(message: Message(id: UUID(), text: "Sample Text", isFromUser: true, timestamp: Date.now))
 }

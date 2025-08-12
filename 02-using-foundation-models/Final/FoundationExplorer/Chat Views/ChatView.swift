@@ -38,7 +38,47 @@ struct ChatView: View {
   @State private var messages: [Message] = []
   @FocusState private var isTextFieldFocused: Bool
   @State private var showAlert = false
+  @State private var showConfig = false
   @State private var session = LanguageModelSession()
+  @State private var promptInstructions: String?
+  @State private var customTemperature = false
+  @State private var modelTemperature: Double?
+  @State private var useGreedy = false
+
+
+  @ToolbarContentBuilder private var appToolbar: some ToolbarContent {
+    ToolbarItem(placement: .navigationBarTrailing) {
+      Button {
+        showConfig = true
+      } label: {
+        Image(systemName: "gear")
+          .foregroundStyle(.primary)
+      }
+      .sheet(isPresented: $showConfig, onDismiss: {
+        resetChatHistory()
+      }, content: {
+        ConfigurationView(
+          instruction: $promptInstructions,
+          customTemperature: $customTemperature,
+          temperature: $modelTemperature,
+          useGreedy: $useGreedy
+        )
+      })
+    }
+    ToolbarItem(placement: .navigationBarTrailing) {
+      Button {
+        showAlert = true
+      } label: {
+        Image(systemName: "xmark.circle.fill")
+          .foregroundColor(.red)
+      }
+      .confirmationDialog("Are you sure you want to delete the chat history?", isPresented: $showAlert) {
+        Button("Delete Chat History", role: .destructive) {
+          resetChatHistory()
+        }
+      }
+    }
+  }
 
   var body: some View {
     NavigationView {
@@ -85,19 +125,7 @@ struct ChatView: View {
       .navigationTitle("Foundation Explorer")
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
-        ToolbarItem(placement: .navigationBarTrailing) {
-          Button {
-            showAlert = true
-          } label: {
-            Image(systemName: "xmark.circle.fill")
-              .foregroundColor(.red)
-          }
-          .confirmationDialog("Are you sure you want to delete the chat history?", isPresented: $showAlert) {
-            Button("Delete Chat History", role: .destructive) {
-              resetChatHistory()
-            }
-          }
-        }
+        appToolbar
       }
     }
   }
@@ -106,16 +134,15 @@ struct ChatView: View {
     messages = []
     session = LanguageModelSession()
   }
-  
+
   private func addMessage(_ message: String, isFromUser: Bool, animate: Bool = true) {
-    
     let newMessage = Message(
       id: UUID(),
       text: message,
       isFromUser: isFromUser,
       timestamp: Date()
     )
-    
+
     if animate {
       withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
         messages.append(newMessage)
@@ -124,7 +151,7 @@ struct ChatView: View {
       messages.append(newMessage)
     }
   }
-  
+
   private func removeLastMessage() {
     messages.removeLast()
   }
@@ -137,7 +164,7 @@ struct ChatView: View {
 
     let stream = session.streamResponse(to: messageText)
     messageText = ""
-    
+
     // 1
     addMessage("", isFromUser: false)
     // 2
