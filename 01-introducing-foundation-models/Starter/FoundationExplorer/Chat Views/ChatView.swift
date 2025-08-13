@@ -103,7 +103,7 @@ struct ChatView: View {
     messages = []
   }
   
-  private func addMessage(_ message: String, isFromUser: Bool) {
+  private func addMessage(_ message: String, isFromUser: Bool, animate: Bool = true) {
     
     let newMessage = Message(
       id: UUID(),
@@ -112,7 +112,11 @@ struct ChatView: View {
       timestamp: Date()
     )
     
-    withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
+    if animate {
+      withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
+        messages.append(newMessage)
+      }
+    } else {
       messages.append(newMessage)
     }
   }
