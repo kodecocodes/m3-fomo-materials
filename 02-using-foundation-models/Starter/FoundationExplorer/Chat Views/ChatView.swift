@@ -54,16 +54,14 @@ struct ChatView: View {
         Image(systemName: "gear")
           .foregroundStyle(.primary)
       }
-      .sheet(isPresented: $showConfig, onDismiss: {
-        resetChatHistory()
-      }, content: {
+      .sheet(isPresented: $showConfig) {
         ConfigurationView(
           instruction: $promptInstructions,
           customTemperature: $customTemperature,
           temperature: $modelTemperature,
           useGreedy: $useGreedy
         )
-      })
+      }
     }
     ToolbarItem(placement: .navigationBarTrailing) {
       Button {
@@ -112,6 +110,10 @@ struct ChatView: View {
             withAnimation(.easeInOut(duration: 0.1)) {
               proxy.scrollTo(messages.last?.id, anchor: .bottom)
             }
+          }
+          .onChange(of: promptInstructions) { oldValue, newValue in
+            print("Instructions changed from \(oldValue ?? "nil") to \(newValue ?? "nil")")
+            resetChatHistory()
           }
         }
         // Message input

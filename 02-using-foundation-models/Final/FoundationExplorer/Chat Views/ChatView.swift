@@ -54,16 +54,14 @@ struct ChatView: View {
         Image(systemName: "gear")
           .foregroundStyle(.primary)
       }
-      .sheet(isPresented: $showConfig, onDismiss: {
-        resetChatHistory()
-      }, content: {
+      .sheet(isPresented: $showConfig) {
         ConfigurationView(
           instruction: $promptInstructions,
           customTemperature: $customTemperature,
           temperature: $modelTemperature,
           useGreedy: $useGreedy
         )
-      })
+      }
     }
     ToolbarItem(placement: .navigationBarTrailing) {
       Button {
@@ -113,6 +111,10 @@ struct ChatView: View {
               proxy.scrollTo(messages.last?.id, anchor: .bottom)
             }
           }
+          .onChange(of: promptInstructions) { oldValue, newValue in
+            print("Instructions changed from \(oldValue ?? "nil") to \(newValue ?? "nil")")
+            resetChatHistory()
+          }
         }
         // Message input
         MessageInputView(
@@ -132,7 +134,7 @@ struct ChatView: View {
 
   private func resetChatHistory() {
     messages = []
-    session = LanguageModelSession()
+    session = LanguageModelSession(instructions: promptInstructions)
   }
 
   private func addMessage(_ message: String, isFromUser: Bool, animate: Bool = true) {
@@ -162,7 +164,10 @@ struct ChatView: View {
     // Append user message
     addMessage(messageText, isFromUser: true)
 
-    let stream = session.streamResponse(to: messageText)
+    let temperature = customTemperature ? modelTemperature : nil
+    let samplingMode = useGreedy ? GenerationOptions.SamplingMode.greedy : nil
+    let options = GenerationOptions(sampling: samplingMode, temperature: temperature)
+    let stream = session.streamResponse(to: messageText, options: options)
     messageText = ""
 
     // 1
@@ -184,14 +189,48 @@ struct ChatView: View {
       )
     }
     catch LanguageModelSession.GenerationError.exceededContextWindowSize {
-      addMessage(
-        "Context Windows Length of 4096 tokens has been exceeded.",
-        isFromUser: false,
-      )
+      await summarizeChat()
     }
     catch {
       // 6
       addMessage(error.localizedDescription, isFromUser: false)
+    }
+  }
+  
+  func summarizeChat() async {
+    // 1
+    var allText = ""
+    // 2
+    for entry in session.transcript {
+      // 3
+      switch entry {
+      case .prompt(let prompt):
+        allText += prompt.description + "\n"
+      case .response(let response):
+        allText += response.description + "\n"
+      default:
+        allText += "\n"
+      }
+    }
+    // 4
+    addMessage("Context windows exceeded. Summarizing Chat", isFromUser: false)
+
+    let summarySession = LanguageModelSession(instructions: "Summarize all text presented to the model.")
+    let summarizedText = try? await summarySession.respond(to: allText).content
+    
+    // 1
+    if let summarizedText = summarizedText {
+      // 2
+      resetChatHistory()
+      addMessage(summarizedText, isFromUser: false)
+      // 3
+      session = LanguageModelSession(instructions: promptInstructions)
+      // 4
+      let response = try? await session.respond(to: summarizedText)
+      addMessage(response?.content ?? "", isFromUser: false)
+    } else {
+      // 5
+      resetChatHistory()
     }
   }
 }

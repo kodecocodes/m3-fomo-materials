@@ -59,7 +59,7 @@ struct ConfigurationView: View {
             Text("Custom Temperature")
           }
           HStack {
-            Slider(value: $localTemperature, in: 0.0...2.0, step: 0.1)
+            Slider(value: $localTemperature, in: 0.0...1.0, step: 0.05)
             Text(formattedTemperatre)
           }
           .opacity(customTemperature ? 1.0 : 0.0)
