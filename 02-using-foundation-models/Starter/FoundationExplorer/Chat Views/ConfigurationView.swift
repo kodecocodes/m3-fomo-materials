@@ -39,7 +39,7 @@ struct ConfigurationView: View {
   @Binding var useGreedy: Bool
   @State var localInstructions = ""
   @State var localTemperature: Double = 0.2
-  
+
   var formattedTemperatre: String {
     String(format: "%0.1f", localTemperature)
   }
@@ -91,7 +91,7 @@ struct ConfigurationView: View {
 #Preview {
   @Previewable @State var instructions: String? = ""
   @Previewable @State var customTemperature: Bool = false
-  @Previewable @State var temperature: Double? = nil
+  @Previewable @State var temperature: Double?
   @Previewable @State var useGreedy: Bool = false
 
   ConfigurationView(
