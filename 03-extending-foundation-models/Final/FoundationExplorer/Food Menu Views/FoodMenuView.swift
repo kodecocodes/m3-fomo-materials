@@ -31,10 +31,45 @@
 /// THE SOFTWARE.
 
 import SwiftUI
+import FoundationModels
 
 struct FoodMenuView: View {
+  @State var menu: RestaurantMenu.PartiallyGenerated?
+
   var body: some View {
-    Text("Hello, World!")
+    VStack {
+      Button("Generate Lunch Menu") {
+        // 1
+        Task {
+          // 2
+          let session = LanguageModelSession(instructions: "You are a helpful model assisting with generating realistic restaurant menus.")
+          // 3
+          let prompt = "Create a menu for lunch at a casual dining restaurant"
+          // 4
+          let streamedResponse =  session.streamResponse(to: prompt, generating: RestaurantMenu.self)
+          // 5
+          do {
+            for try await partialResponse in streamedResponse {
+              menu = partialResponse.content
+            }
+          } catch {
+            print(error.localizedDescription)
+          }
+        }
+      }
+      if let menu = menu {
+        if let menuItems = menu.menu {
+          ScrollView {
+            ForEach(menuItems, id: \.name) { item in
+              MenuItemView(menuItem: item)
+              Divider()
+            }
+          }
+        }
+      }
+      Spacer()
+    }
+    .padding()
   }
 }
 

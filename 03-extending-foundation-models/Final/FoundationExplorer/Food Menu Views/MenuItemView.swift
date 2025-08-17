@@ -1,15 +1,15 @@
 /// Copyright (c) 2025 Kodeco Inc.
-///
+/// 
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
 /// in the Software without restriction, including without limitation the rights
 /// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 /// copies of the Software, and to permit persons to whom the Software is
 /// furnished to do so, subject to the following conditions:
-///
+/// 
 /// The above copyright notice and this permission notice shall be included in
 /// all copies or substantial portions of the Software.
-///
+/// 
 /// Notwithstanding the foregoing, you may not use, copy, modify, merge, publish,
 /// distribute, sublicense, create a derivative work, and/or sell copies of the
 /// Software in any work that is designed, intended, or marketed for pedagogical or
@@ -17,7 +17,7 @@
 /// or information technology.  Permission for such use, copying, modification,
 /// merger, publication, distribution, sublicensing, creation of derivative works,
 /// or sale is expressly withheld.
-///
+/// 
 /// This project and source code may use libraries or frameworks that are
 /// released under various Open-Source licenses. Use of those libraries and
 /// frameworks are governed by their own individual licenses.
@@ -32,17 +32,37 @@
 
 import SwiftUI
 
-struct FoodMenuView: View {
+struct MenuItemView: View {
+  var menuItem: MenuItem.PartiallyGenerated
+
   var body: some View {
-    VStack {
-      Button("Generate Lunch Menu") {
-      }
+    HStack {
+      Text(menuItem.name ?? "")
       Spacer()
+      if let cost = menuItem.cost {
+        Text(cost, format: .currency(code: "USD"))
+      }
     }
-    .padding()
+    .font(.title)
+    Text(menuItem.description ?? "")
+      .frame(maxWidth: .infinity, alignment: .leading)
+      .padding(.leading, 15.0)
+      .font(.headline)
+    if let ingredients = menuItem.ingredients {
+      Text(ingredients.joined(separator: " • "))
+        .font(.subheadline)
+    }
   }
 }
 
 #Preview {
-  FoodMenuView()
+  let item = MenuItem(
+    name: "Caesar Salad",
+    description: "Romaine lettuce tossed in Caesar dressing with parmesan cheese and croutons.",
+    ingredients: ["romaine lettuce", "Caesar dressing", "parmesan cheese", "croutons"],
+    cost: 10.0
+  )
+  MenuItemView(
+    menuItem: item.asPartiallyGenerated()
+  )
 }
