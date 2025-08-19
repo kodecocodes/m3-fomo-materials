@@ -35,12 +35,12 @@ import Foundation
 import MapKit
 import OpenMeteoSdk
 
-struct ForcastElements {
+struct ForecastElements {
   var time: String
   var temperature: Float
   var precipitationProbability: Float
 }
 
 struct WeatherForecast {
-  var forecasts: [ForcastElements]
+  var forecasts: [ForecastElements]
 }

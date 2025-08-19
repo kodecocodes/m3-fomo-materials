@@ -33,14 +33,20 @@
 
 import Foundation
 import MapKit
-import OpenMeteoSdk
+import FoundationModels
 
-struct ForcastElements {
+@Generable
+struct ForecastElements {
+  @Guide(description: "Time of the forecast.")
   var time: String
+  @Guide(description: "Forecast temperature at the time.")
   var temperature: Float
+  @Guide(description: "Probability of preciptiation at the time.")
   var precipitationProbability: Float
 }
 
+@Generable
 struct WeatherForecast {
-  var forecasts: [ForcastElements]
+  @Guide(description: "The temperature and probability of preciptiation element for a given time.")
+  var forecasts: [ForecastElements]
 }

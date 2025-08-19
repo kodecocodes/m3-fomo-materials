@@ -39,7 +39,7 @@ struct ChatView: View {
   @FocusState private var isTextFieldFocused: Bool
   @State private var showAlert = false
   @State private var showConfig = false
-  @State private var session = LanguageModelSession()
+  @State private var session = LanguageModelSession(tools: [WeatherForecastTool()])
   @State private var promptInstructions: String?
   @State private var customTemperature = false
   @State private var modelTemperature: Double?
@@ -174,7 +174,10 @@ struct ChatView: View {
 
   private func resetChatHistory() {
     messages = []
-    session = LanguageModelSession(instructions: promptInstructions)
+    session = LanguageModelSession(
+      tools: [WeatherForecastTool()],
+      instructions: promptInstructions
+    )
   }
 
   private func addMessage(_ message: String, isFromUser: Bool, animate: Bool = true) {
@@ -232,6 +235,12 @@ struct ChatView: View {
     }
     catch LanguageModelSession.GenerationError.exceededContextWindowSize {
       await summarizeChat()
+    }
+    catch let error as LanguageModelSession.ToolCallError {
+      addMessage(
+        "Error occurred calling \(error.tool.name): \(error.localizedDescription)",
+        isFromUser: false
+      )
     }
     catch {
       // 6

@@ -33,8 +33,25 @@
 import Foundation
 import MapKit
 import OpenMeteoSdk
+import FoundationModels
 
 struct WeatherForecastTool {
+  func getCoordinatesFor(_ name: String) async -> CLLocationCoordinate2D? {
+    if let request = MKGeocodingRequest(addressString: name) {
+      do {
+        let mapitems = try await request.mapItems
+        if let mapItem = mapitems.first {
+          let coordinates = mapItem.location.coordinate
+          return coordinates
+        }
+      } catch {
+        print("Error doing city lookup: \(error.localizedDescription)")
+        return nil
+      }
+    }
+    return nil
+  }
+
   func getForecastFor(coordinates: CLLocationCoordinate2D) async throws -> WeatherForecast {
 
     //  Make sure the URL contains '&format=flatbuffers'
@@ -83,12 +100,12 @@ struct WeatherForecastTool {
     dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
 
     var weatherForecast = WeatherForecast(
-      forecasts: [ForcastElements]()
+      forecasts: [ForecastElements]()
     )
 
     var count: Int = 0
     for (i, date) in data.hourly.time.enumerated() {
-      let forecast = ForcastElements(
+      let forecast = ForecastElements(
         time: dateFormatter.string(from: date),
         temperature: data.hourly.temperature2m[i],
         precipitationProbability: data.hourly.precipitationProbability[i]
