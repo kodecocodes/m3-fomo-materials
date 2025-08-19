@@ -50,7 +50,7 @@ struct ChatView: View {
   struct MenuView: View {
     @Binding var showTranscript: Bool
     @Binding var showFoodMenu: Bool
-    
+
     var body: some View {
       Menu {
         Button {

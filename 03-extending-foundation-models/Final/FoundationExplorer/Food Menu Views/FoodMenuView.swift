@@ -36,7 +36,17 @@ import FoundationModels
 struct FoodMenuView: View {
   @State var menu: RestaurantMenu.PartiallyGenerated?
   @State var special: MenuItem?
-  
+  @State var ingredients: String = "lamb, salmon, duck"
+
+  var ingredientArray: [String] {
+    let array = ingredients.split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) }
+    if array.isEmpty {
+      return ["lamb", "salmon", "duck"]
+    } else {
+      return array
+    }
+  }
+
   // 1
   func generateLunchMenu() async {
     // 2
@@ -57,22 +67,20 @@ struct FoodMenuView: View {
   
   func generateMenuSpecial() async {
     // 1
-    let todaysIngredients = ["lamb", "salmon", "duck"]
-    // 2
     let specialMealSchema = DynamicGenerationSchema(
       name: "specialmenuitem",
-      // 3
+      // 2
       properties: [
-        // 4
+        // 3
         DynamicGenerationSchema.Property(
           name: "ingredients",
-          // 5
+          // 4
           schema: DynamicGenerationSchema(
             name: "ingredients",
-            anyOf: todaysIngredients
+            anyOf: ingredientArray
           )
         ),
-        // 6
+        // 5
         DynamicGenerationSchema.Property(
           name: "name",
           schema: DynamicGenerationSchema(type: String.self)
@@ -113,6 +121,8 @@ struct FoodMenuView: View {
   
   var body: some View {
     VStack {
+      Text("Comma separated list of possible ingredients.")
+      TextField("Ingredients for Special", text: $ingredients)
       Button("Generate Lunch Menu") {
         Task {
           await generateLunchMenu()
