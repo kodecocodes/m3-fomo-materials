@@ -36,78 +36,87 @@ import FoundationModels
 struct FoodMenuView: View {
   @State var menu: RestaurantMenu.PartiallyGenerated?
   @State var special: MenuItem?
+  
+  // 1
+  func generateLunchMenu() async {
+    // 2
+    let session = LanguageModelSession(instructions: "You are a helpful model assisting with generating realistic restaurant menus.")
+    // 3
+    let prompt = "Create a menu for lunch at a casual dining restaurant"
+    // 4
+    let streamedResponse = session.streamResponse(to: prompt, generating: RestaurantMenu.self)
+    // 5
+    do {
+      for try await partialResponse in streamedResponse {
+        menu = partialResponse.content
+      }
+    } catch {
+      print(error.localizedDescription)
+    }
+  }
+  
+  func generateMenuSpecial() async {
+    // 1
+    let todaysIngredients = ["lamb", "salmon", "duck"]
+    // 2
+    let specialMealSchema = DynamicGenerationSchema(
+      name: "specialmenuitem",
+      // 3
+      properties: [
+        // 4
+        DynamicGenerationSchema.Property(
+          name: "ingredients",
+          // 5
+          schema: DynamicGenerationSchema(
+            name: "ingredients",
+            anyOf: todaysIngredients
+          )
+        ),
+        // 6
+        DynamicGenerationSchema.Property(
+          name: "name",
+          schema: DynamicGenerationSchema(type: String.self)
+        ),
+        DynamicGenerationSchema.Property(
+          name: "description",
+          schema: DynamicGenerationSchema(type: String.self)
+        ),
+        DynamicGenerationSchema.Property(
+          name: "price",
+          schema: DynamicGenerationSchema(type: Decimal.self)
+        )
+      ]
+    )
+    
+    // 1
+    let schema = try? GenerationSchema(root: specialMealSchema, dependencies: [])
+    // 2
+    guard let schema = schema else { return }
+    // 3
+    let session = LanguageModelSession(instructions: "You are a helpful model assisting with generating realistic restaurant menus.")
+    let specialPrompt = "Produce a lunch special menu item that is focused on the specified ingredient."
+    let response = try? await session.respond(to: specialPrompt, schema: schema)
 
+    let name = try? response?.content.value(String.self, forProperty: "name")
+    let ingredients = try? response?.content.value(String.self, forProperty: "ingredients")
+    let description = try? response?.content.value(String.self, forProperty: "description")
+    let price = try? response?.content.value(Decimal.self, forProperty: "price")
+    let specialItem = MenuItem(
+      name: name ?? "",
+      description: description ?? "",
+      ingredients: ingredients == nil ? [] : [ingredients!],
+      cost: price ?? 0.0
+    )
+    
+    special = specialItem
+  }
+  
   var body: some View {
     VStack {
       Button("Generate Lunch Menu") {
-        // 1
         Task {
-          // 2
-          let session = LanguageModelSession(instructions: "You are a helpful model assisting with generating realistic restaurant menus.")
-          // 3
-          let prompt = "Create a menu for lunch at a casual dining restaurant"
-          // 4
-          let streamedResponse =  session.streamResponse(to: prompt, generating: RestaurantMenu.self)
-          // 5
-          do {
-            for try await partialResponse in streamedResponse {
-              menu = partialResponse.content
-            }
-          } catch {
-            print(error.localizedDescription)
-          }
-
-          // 1
-          let todaysIngredients = ["lamb", "salmon", "duck"]
-          // 2
-          let specialMealSchema = DynamicGenerationSchema(
-            name: "specialmenuitem",
-            // 3
-            properties: [
-              // 4
-              DynamicGenerationSchema.Property(
-                name: "ingredients",
-                // 5
-                schema: DynamicGenerationSchema(
-                  name: "ingredients",
-                  anyOf: todaysIngredients
-                )
-              ),
-              // 6
-              DynamicGenerationSchema.Property(
-                name: "name",
-                schema: DynamicGenerationSchema(type: String.self)
-              ),
-              DynamicGenerationSchema.Property(
-                name: "description",
-                schema: DynamicGenerationSchema(type: String.self)
-              ),
-              DynamicGenerationSchema.Property(
-                name: "price",
-                schema: DynamicGenerationSchema(type: Decimal.self)
-              )
-            ]
-          )
-          
-          // 1
-          let schema = try? GenerationSchema(root: specialMealSchema, dependencies: [])
-          // 2
-          guard let schema = schema else { return }
-          // 3
-          let specialPrompt = "Produce a lunch special menu item that is focused on the specified ingredient."
-          let response = try? await session.respond(to: specialPrompt, schema: schema)
-
-          let name = try? response?.content.value(String.self, forProperty: "name")
-          let ingredients = try? response?.content.value(String.self, forProperty: "ingredients")
-          let description = try? response?.content.value(String.self, forProperty: "description")
-          let price = try? response?.content.value(Decimal.self, forProperty: "price")
-          let specialItem = MenuItem(
-            name: name ?? "",
-            description: description ?? "",
-            ingredients: ingredients == nil ? [] : [ingredients!],
-            cost: price ?? 0.0
-          )
-          special = specialItem
+          await generateLunchMenu()
+          await generateMenuSpecial()
         }
       }
       if let special = special {
