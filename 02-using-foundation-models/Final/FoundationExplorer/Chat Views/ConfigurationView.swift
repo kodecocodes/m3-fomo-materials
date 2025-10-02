@@ -1,4 +1,4 @@
-/// Copyright (c) 2023 Kodeco Inc.
+/// Copyright (c) 2025 Kodeco Inc.
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -32,12 +32,72 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct ConfigurationView: View {
+  @Binding var instruction: String?
+  @Binding var customTemperature: Bool
+  @Binding var temperature: Double?
+  @Binding var useGreedy: Bool
+  @State var localInstructions = ""
+  @State var localTemperature: Double = 0.2
+
+  var formattedTemperatre: String {
+    String(format: "%0.1f", localTemperature)
+  }
+
   var body: some View {
-    ChatView()
+    VStack {
+      Text("Settings")
+        .font(.title)
+      Text("Changing any of these setting will reset the current chat.")
+        .font(.callout)
+      Form {
+        Section("Model Instructions") {
+          TextEditor(text: $localInstructions)
+        }
+        Section("Temperature") {
+          Toggle(isOn: $customTemperature) {
+            Text("Custom Temperature")
+          }
+          HStack {
+            Slider(value: $localTemperature, in: 0.0...1.0, step: 0.05)
+            Text(formattedTemperatre)
+          }
+          .opacity(customTemperature ? 1.0 : 0.0)
+        }
+        Section("Sampling") {
+          Toggle(isOn: $useGreedy) {
+            Text("Use Greedy Sampling")
+          }
+        }
+      }
+      .onAppear {
+        localInstructions = instruction ?? ""
+        localTemperature = temperature ?? 0.2
+      }
+      .onChange(of: localInstructions) {
+        if localInstructions.isEmpty {
+          instruction = nil
+        } else {
+          instruction = localInstructions
+        }
+      }
+      .onChange(of: localTemperature) {
+        temperature = localTemperature
+      }
+    }
   }
 }
 
 #Preview {
-  ContentView()
+  @Previewable @State var instructions: String? = ""
+  @Previewable @State var customTemperature: Bool = false
+  @Previewable @State var temperature: Double?
+  @Previewable @State var useGreedy: Bool = false
+
+  ConfigurationView(
+    instruction: $instructions,
+    customTemperature: $customTemperature,
+    temperature: $temperature,
+    useGreedy: $useGreedy
+  )
 }
